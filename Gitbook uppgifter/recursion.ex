@@ -1,15 +1,6 @@
 defmodule Recursion do
 
-@doc """
-Compute the product between n and m
-
-product of n and m:
-  if n is 0
-  then ...
-  otherwise
-    the result...
-"""
-
+  #Does product by recursion. Hard to fix with case
   def prod(m,n) do
     if m == 0 do
       0
@@ -44,6 +35,7 @@ product of n and m:
     end
   end
 
+  #Does Ackerman function
   def ackerman(m,n) do
     cond do
       m==0 -> n+1
