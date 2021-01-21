@@ -10,14 +10,15 @@ product of n and m:
     the result...
 """
 
-def prod(m,n) do
-  case m do
-    0 -> 0
-    1 -> n
-    _ -> prod(m-1,n) + n
+  def prod(m,n) do
+    if m == 0 do
+      0
+    else
+      if m<0 do
+        prod(m+1,n) - n
+      else
+        prod(m-1,n) +n
+      end
+    end
   end
-
-
-  end
-
 end
