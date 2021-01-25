@@ -67,5 +67,70 @@ defmodule Mset do
     {o,e}
   end
 
+  def add_n_even(lst) do
+    add_n_even(lst, [],[])
+  end
+
+  def add_n_even([],odd,even) do
+    {odd,even}
+  end
+
+  def add_n_even([h|t],odd,even) do
+    if rem(h,2) == 1 do
+      add_n_even(t,[h|odd],even)
+    else
+      add_n_even(t,odd,[h|even])
+    end
+  end
+
+  # Reverse function - Uses the stack
+  def rev([]) do
+    []
+  end
+  def rev([h|t]) do
+    res = rev(t)
+    res ++[h]
+  end
+
+  #Optimize Reverse function
+  def rav(lst) do
+    rav(lst,[])
+  end
+
+  def rav([],res) do
+    res
+  end
+
+  def rav([h|t],res) do
+    rav(t,[h|res])
+  end
+
+  # A function that "adds" a list of lists]
+  def flat([]) do
+    []
+  end
+
+  def flat([l|t]) do
+    l ++ flat(t)
+  end
+
+
+  # Adds a lists of list together
+  def flut(lst) do
+    flut(lst,[])
+  end
+
+  #Base case - If the list is empty just call res
+  def flut([],res) do
+    res
+  end
+
+  #Not empty list - 
+  def flut([l|t], res) do
+    flut(t,res ++ l)
+  end
+
+
+
 
 end
