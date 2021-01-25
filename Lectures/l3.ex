@@ -125,12 +125,8 @@ defmodule Mset do
     res
   end
 
-  #Not empty list - 
+  #Not empty list -
   def flut([l|t], res) do
     flut(t,res ++ l)
   end
-
-
-
-
 end
