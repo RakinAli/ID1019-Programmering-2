@@ -60,4 +60,12 @@ defmodule Mset do
       even(t)
     end
   end
+
+  def odd_n_even(lst) do
+    o = odd(lst)
+    e = even(lst)
+    {o,e}
+  end
+
+
 end
