@@ -36,5 +36,28 @@ defmodule Mset do
     sam(t,n+s)
   end
 
+  def odd([]) do
+    []
+  end
 
+  #Saves the odds numbers
+  def odd([h|t]) do
+    if rem(h,2) == 1 do
+      [h|odd(t)]
+    else
+      odd(t)
+    end
+  end
+
+  def even([]) do
+    []
+  end
+
+  def even([h|t]) do
+    if rem(h,2) == 0 do
+      [h|even(t)]
+    else
+      even(t)
+    end
+  end
 end
