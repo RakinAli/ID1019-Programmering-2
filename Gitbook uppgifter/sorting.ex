@@ -25,18 +25,22 @@ defmodule Test do
     isort(list,[])
   end
 
+  # Base case - Empty list
   def isort([],[]) do
     []
   end
 
+  # Starting caes - Empty sorted list
   def isort([h|t],[]) do
     isort(t,insert(h,[]))
   end
 
+  # Normal case -> Isort t and sort h into sorted list
   def isort([h|t],list) do
     isort(t,insert(h,list))
   end
 
+  #Ending case -> Return the sorted list 
   def isort([],list) do
     list
   end
