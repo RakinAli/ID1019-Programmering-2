@@ -20,10 +20,25 @@ defmodule Test do
     end
   end
 
+  #Insertion sort -> Hard coded but works
   def isort(list) do
-    [] -> "Nothing"
-    [h|t] -> 
+    isort(list,[])
   end
 
+  def isort([],[]) do
+    []
+  end
+
+  def isort([h|t],[]) do
+    isort(t,insert(h,[]))
+  end
+
+  def isort([h|t],list) do
+    isort(t,insert(h,list))
+  end
+
+  def isort([],list) do
+    list
+  end
 
 end
