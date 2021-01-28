@@ -1,5 +1,6 @@
 defmodule Tree do
 
+#Insert function
   def insert(key,value,:nil) do
     {:node,key,value,:nil,:nil}
   end
@@ -11,6 +12,32 @@ defmodule Tree do
       {:node,k,v,left,insert(key,value,right)}
     end
   end
+
+#Delete function
+  def delete(key,{:node,key,_,:nil,:nil})do
+    :nil
+  end
+
+  def delete(key,{:node,key,_,:nil,right}) do
+    right
+  end
+
+  def delete(key,{:node,key,_,left,_,:nil}) do
+    left
+  end
+
+  def delete(key,{:node,key,_,left,right}) do
+    {:node,left,right}
+  end
+
+  def delete(key,value,{:node,k,v,left,right}) do
+    if key<k do
+      {:node,k,v,delete(key,value,left),right}
+    else
+      {:node,k,v,left,delete(key,value,right)}
+    end
+  end
+
 
 
 #Trying to make a look up function
