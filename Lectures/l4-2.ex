@@ -36,6 +36,4 @@ defmodule Q do
     reverse(t,[h|rev])
   end
 
-
-
 end
