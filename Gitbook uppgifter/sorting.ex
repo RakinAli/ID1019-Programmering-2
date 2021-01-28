@@ -25,12 +25,7 @@ defmodule Test do
     isort(list,[])
   end
 
-  # Base case - Empty list
-  def isort([],[]) do
-    []
-  end
-
-  # Starting caes - Empty sorted list
+  # Starting case - Empty sorted list
   def isort([h|t],[]) do
     isort(t,insert(h,[]))
   end
@@ -44,15 +39,4 @@ defmodule Test do
   def isort([],list) do
     list
   end
-
-  @doc """ In merge sort, you divide the list into two (as equal as possible) list. Then you merge sort
-  each of these lists to obtain two sorted sub-lists. These sorted sub-lists are then merged into
-  one final sorted list
-
-  The two lists are merged by picking the smallest of the elements from each of the lists. Since each
-  list is sorted, one needed only to look at the first element of each list to determine which element
-  is the smallest """
-
-  
-
 end
