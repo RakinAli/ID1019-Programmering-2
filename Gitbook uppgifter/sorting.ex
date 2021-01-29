@@ -39,6 +39,7 @@ defmodule Test do
   def isort([],list) do
     list
   end
+
   @doc """
   In Merge Sort, you divide the list into two list. Then you merge sort each of
   these lists to obtain two sorted sub-lists. These sorted sub-lists are then merged
@@ -49,11 +50,41 @@ defmodule Test do
   which element is the smallest.
   """
 
-  def msplit([],[],[]) do
-    []
+  #Throw in an empty list
+  def msplit([]) do
+    msplit([],[],[])
   end
 
-  def msplit([],[],[])
+  def msplit([],[],[]) do
+
+  end
+
+  #Base case & Finished case
+  def msplit([],[a|t1],[b|t2]) do
+    [a|t1],[b|t2]
+  end
+
+  #Special case. Uneven partition
+  def msplit([a],[h1|t1],[h2|t2]) do
+    msplit([],[a,h1|t1],[h2|t2])
+  end
+
+  def msplit([h|t],[],[]) do
+    msplit(t,[h],[])
+  end
+
+  def msplit([h|t],[a],[])do
+    msplit(t,[a],[h])
+  end
+
+  def msplit([a,b|c],[h1|t],[h2|t]) do
+    msplit(c,[a,h1|t],[b,h2|t])
+  end
+
+  #Empty list
+  def merge([]) do
+
+  end
 
 
 end
