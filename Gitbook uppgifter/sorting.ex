@@ -39,4 +39,21 @@ defmodule Test do
   def isort([],list) do
     list
   end
+  @doc """
+  In Merge Sort, you divide the list into two list. Then you merge sort each of
+  these lists to obtain two sorted sub-lists. These sorted sub-lists are then merged
+  into one final sorted list.
+
+  The two lists are merged by picking the smallest of the elements from each of the lists
+  Since each list is sorted, one need only to look at the first element of each list to determine
+  which element is the smallest.
+  """
+
+  def msplit([],[],[]) do
+    []
+  end
+
+  def msplit([],[],[])
+
+
 end
