@@ -81,10 +81,25 @@ defmodule Test do
     msplit(c,[a,h1|t],[b,h2|t])
   end
 
+#This function takes a list with two lists. It sorts them and then places them
+# onto a new list
+
   #Empty list
   def merge([]) do
-
+    merge([],[])
   end
+
+  #Empty case
+  def merge([],[]) do
+    []
+  end
+
+  #Base/Finishing case
+  def merge([],[h|t]) do
+    [h|t]
+  end
+
+  
 
 
 end
