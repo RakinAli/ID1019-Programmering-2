@@ -108,16 +108,45 @@ defmodule Test do
   result, remember to put the pivot element in the middle
   """
 
+  #Empty list to sort
   def qsort([]) do
     []
   end
 
-  def qsplit
-
-
-
-  def append([],[]) do
-
+  #Sorts on the way down
+  def qsort([p|list]) do
+    {small,large} = qsplit(p,list,[],[])
+    small = qsort(small)
+    large = qsort(large)
+    append(small,[p|large])
   end
 
+  #Cannot split an empty list
+  def qsplit(_,[],small,large) do
+    {small,large}
+  end
+
+  #One list gets broken into two lists If smaller than privot then small else large list
+  def qsplit(p,[h|t],small,large) do
+    if p > h do
+      qsplit(p,t,[h|small],large)
+    else
+      qsplit(p,t,small,[h|large])
+    end
+  end
+
+  # Nothing to do
+  def append([],[]) do
+    []
+  end
+
+  #Adds an element to the list
+  def append(element,[])do
+    [element]
+  end
+
+  #Flattens two lists
+  def append(small,large) do
+    small ++ large
+  end
 end
