@@ -4,7 +4,7 @@ defmodule Test do
  #{:leaf,value}    -> a Leaf
  #{:node, value, left, right}   -> a Branch
 
-   #_____________________________ MEMBER FUNCTION ______________________-
+#______________________MEMBER FUNCTION _____________#-
 
    #If there's no branch or leaf
    def member(_,:nil) do
@@ -41,7 +41,7 @@ defmodule Test do
    end
    #__________________________________________________________--
 
-   #___________________ INSERT FUNCTION _______________________
+#______________________INSERT FUNCTION _____________#
 
    #Creates a root
    def insert(e,:nil) do
@@ -72,7 +72,7 @@ defmodule Test do
    end
    #____________________________________________________________
 
-      #__________________________________________________#
+#______________________RIGHT & LEFTMOST_____________#
 
    #If we come to a leaf - Means we are at the end of the most right-most
    def rightmost(:leaf,e) do
@@ -96,8 +96,7 @@ defmodule Test do
    #____________________________________________________#
 
 
-
-   #______________________ Delete function _____________________
+#______________________Delete function _____________#
 
    #Deletes a leaf
    def delete(e,{:leaf,e}) do
@@ -131,12 +130,46 @@ defmodule Test do
       {:node,v,left,delete(e,right)}
    end
 
-   #______________________ KEY-VALUE STORE _________________-
+#______________________KEY-VALUE STORE _____________#
 
    #:nil             -> an emmpty tree
    #{:node,key,value,left,right}         -> a node with a key
 
-   
+#______________________LOOK UP FUNCTION ____________#
 
+   #Looks for the function
+   def lookup(_,:nil) do
+      :no
+   end
 
+   #looks up the key
+   def lookup(key,{:node,key,value,_,_}) do
+      {:value,value}
+   end
+
+   #Look left or right in the tree
+   def lookup(key,{:node,k,_,left,right}) do
+      if key<k do
+         lookup(key,left)
+      else
+         lookup(key,right)
+      end
+   end
+
+#______________________MODIFY FUNCTION______________#
+   def modify(_,_,:nil) do
+      :nil
+   end
+
+   def modify(key,value,{:node,key,_,left,right}) do
+      {:node,key,value,left,right}
+   end
+
+   def modify(key,value,{:node,k,v,left,right}) do
+      if key<k do
+      {:node,k,v,modify(key,value,left)}
+      else
+      {:node,k,v,left,modify(key,value,right)}
+      end
+   end
 end
