@@ -2,7 +2,7 @@ defmodule Test do
 
  # :nil    -> Empty tree
  #{:leaf,value}    -> a Leaf
- #{:node, value, left, right}   -> a Node
+ #{:node, value, left, right}   -> a Branch
 
 
  @doc """
@@ -15,18 +15,34 @@ defmodule Test do
  use _ in third clause; if the lement is not found in the leaf it does not matter what
  we are looking for nor what is in the leaf.
  """
+
+ #If there's no branch or leaf
  def member(_,:nil) do
     :no
  end
 
+ #If the elemt is inside a leaf
  def member(e,{:leaf,e}) do
     :yes
  end
 
+ # If the element we are searching for isn't there
  def member(_,{:leaf,_}) do
    :no
  end
 
+ def member(e,{:node,e,_,_}) do
+    :yes
+ end
 
+ #If element is larger than v then go left
+ def member(e,{:node,v,left,_}) when e < v do
+    member(e,left)
+ end
 
+#Else go right
+ def member(e,{:node,_,_,right})do
+   member(e,right)
+ end
+ 
 end
