@@ -22,7 +22,7 @@ defmodule Tree do
     right
   end
 
-  def delete(key,{:node,key,_,left,_,:nil}) do
+  def delete(key,{:node,key,_,left,:nil}) do
     left
   end
 

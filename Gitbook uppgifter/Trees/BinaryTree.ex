@@ -79,5 +79,19 @@ defmodule Test do
       :nil
    end
 
+   #Case 1- If we delete a node and the leftside is empty -> Just connect right
+   def delete(e,{:node,e,:nil,right})do
+      right
+   end
+
+   def delete(e,{:node,e,left,:nil}) do
+      left
+   end
+
+   def delete(e,{:node,e,left,right}) do
+      
+   end
+
+
 
 end
