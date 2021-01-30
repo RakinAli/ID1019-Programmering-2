@@ -99,7 +99,6 @@ defmodule Test do
 
    #______________________ Delete function _____________________
 
-
    #Deletes a leaf
    def delete(e,{:leaf,e}) do
       :nil
@@ -133,10 +132,11 @@ defmodule Test do
    end
 
    #______________________ KEY-VALUE STORE _________________-
+
+   #:nil             -> an emmpty tree
+   #{:node,key,value,left,right}         -> a node with a key
+
    
-
-
-
 
 
 end
