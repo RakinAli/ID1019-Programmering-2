@@ -84,13 +84,23 @@ defmodule Test do
       right
    end
 
+   #Case 2- If we delete a node and the rightside is empty -Z Just connect the left
    def delete(e,{:node,e,left,:nil}) do
       left
    end
 
+   #Case 3- If we deletea node and both left/right -side isn't empty ->
    def delete(e,{:node,e,left,right}) do
-      
+
    end
+
+   #If it cannot find the element to delete. Move left if V>e
+   def delete(e,{:node,v,left,right}) when e<v do
+      {:node,v,delete(left),right}
+   end
+
+   #
+
 
 
 
