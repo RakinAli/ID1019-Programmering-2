@@ -35,6 +35,7 @@ defmodule Test do
       member(e,right)
    end
 
+   #A function that tests this shit
    def testMember() do
 
    end
@@ -71,6 +72,31 @@ defmodule Test do
    end
    #____________________________________________________________
 
+      #__________________________________________________#
+
+   #If we come to a leaf - Means we are at the end of the most right-most
+   def rightmost(:leaf,e) do
+      e
+   end
+
+   #Just keep going right until we hit a node
+   def rightmost({:node,_,_,right})do
+      rightmost(right)
+   end
+
+   #If we come to leaf - Means we are at the end of the most left
+   def leftmost(:leaf,e) do
+      e
+   end
+
+   #Just keep going left
+   def leftmost({:node,_,left,_})do
+      leftmost(left)
+   end
+   #____________________________________________________#
+
+
+
    #______________________ Delete function _____________________
 
 
@@ -91,15 +117,24 @@ defmodule Test do
 
    #Case 3- If we deletea node and both left/right -side isn't empty ->
    def delete(e,{:node,e,left,right}) do
-
+      deletedValue = leftmost({:node,e,left,right})
+      deletedBranch = delete(leftmost({:node,e,left,right}),{:node,e,left,right})
+      {:node,deletedValue,deletedBranch,right}
    end
 
    #If it cannot find the element to delete. Move left if V>e
    def delete(e,{:node,v,left,right}) when e<v do
-      {:node,v,delete(left),right}
+      {:node,v,delete(e,left),right}
    end
 
-   #
+   #Else go right
+   def delete(e,{:node,v,left,right})do
+      {:node,v,left,delete(e,right)}
+   end
+
+   #______________________ KEY-VALUE STORE _________________-
+   
+
 
 
 
