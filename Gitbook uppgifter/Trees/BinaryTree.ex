@@ -4,45 +4,80 @@ defmodule Test do
  #{:leaf,value}    -> a Leaf
  #{:node, value, left, right}   -> a Branch
 
+   #_____________________________ MEMBER FUNCTION ______________________-
 
- @doc """
- We start by implementing a function memer/2 that takes an element and
- a tree and determines if the lement is found in the tree or not. Let the
- function return :yes or :no depending on if the element i found
+   #If there's no branch or leaf
+   def member(_,:nil) do
+      :no
+   end
 
- The first thing you should think about is what the base cases are. An elment
- is of course not found in an empty tree but could be present in a leaf. Note how we
- use _ in third clause; if the lement is not found in the leaf it does not matter what
- we are looking for nor what is in the leaf.
- """
+   #If the elemt is inside a leaf
+   def member(e,{:leaf,e}) do
+      :yes
+   end
 
- #If there's no branch or leaf
- def member(_,:nil) do
-    :no
- end
+   # If the element we are searching for isn't there
+   def member(_,{:leaf,_}) do
+      :no
+   end
 
- #If the elemt is inside a leaf
- def member(e,{:leaf,e}) do
-    :yes
- end
+   def member(e,{:node,e,_,_}) do
+      :yes
+   end
 
- # If the element we are searching for isn't there
- def member(_,{:leaf,_}) do
-   :no
- end
+   #If element is larger than v then go left
+   def member(e,{:node,v,left,_}) when e < v do
+      member(e,left)
+   end
 
- def member(e,{:node,e,_,_}) do
-    :yes
- end
+   #Else go right
+   def member(e,{:node,_,_,right})do
+      member(e,right)
+   end
 
- #If element is larger than v then go left
- def member(e,{:node,v,left,_}) when e < v do
-    member(e,left)
- end
+   def testMember() do
 
-#Else go right
- def member(e,{:node,_,_,right})do
-   member(e,right)
- end
- 
+   end
+   #__________________________________________________________--
+
+   #___________________ INSERT FUNCTION _______________________
+
+   #Creates a root
+   def insert(e,:nil) do
+      {:leaf,e}
+   end
+
+   #Transform the leaf into a node then create a leaf on the left side
+   def insert(e,{:leaf,v}) when e<v do
+      {:node,v,{:leaf,e},:nil}
+   end
+
+   #Else transform the leaf into a node then create a leaf on the right side
+   def insert(e,{:leaf,v}) do
+      {:node,v,:nil,{:leaf,e}}
+   end
+
+   #Insert an element on the left if e is larger than v
+   def insert(e,{:node,v,left,right}) when e < v do
+      {:node,v,insert(e,left),right}
+   end
+
+   def insert(e,{:node,v,left,right}) do
+      {:node,v,left,insert(e,right)}
+   end
+
+   def testInsert() do
+
+   end
+   #____________________________________________________________
+
+   #______________________ Delete function _____________________
+
+
+   #Deletes a leaf
+   def delete(e,{:leaf,e}) do
+      :nil
+   end
+
+
 end
