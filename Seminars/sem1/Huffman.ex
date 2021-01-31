@@ -105,22 +105,32 @@ defmodule Huffman do
   #{char,freq} -> how an element is represented
   # Insertion function asummes that the freq list thrown in is sorted by frequency
 
-  #First case -> Building the tree
+  #Calling case -> Creates an emprt list that becomes the tree
   def insert([h|t]) do
-    insert([h|t],:nil)
+    insert([h|t],[])
   end
 
-  #Starting case ->The first inserted element becomes a leaf
-  def insert([h|t],:nil) do
-    insert(t,{:leaf,h})
-  end
-
-  #Base case
   def insert([],tree) do
     tree
   end
 
- 
+  #Starting case ->Creates a node with 2 leaves
+  def insert([{h1,f1},{h2,f2}|t],[]) do
+    insert(t,[{:node,f2+f1,{:leaf,h1},{:leaf,h2}}])
+  end
+
+  #Case -> Comes to a node with 2 leaves
+  def insert([{h1,f1}|t],{:node,n,left,right}) do
+    insert(t,[{:node,f1+n,{:leaf,h1},{:node,n,left,right}}])
+  end
+
+  def testInsert do
+    insert(testSort())
+  end
+
+
+
+
   #_____Dummy block_____
   @doc """
 
