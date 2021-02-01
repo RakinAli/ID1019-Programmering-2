@@ -105,27 +105,33 @@ defmodule Huffman do
   #{char,freq} -> how an element is represented
   # Insertion function asummes that the freq list thrown in is sorted by frequency
 
-  #Calling case -> Creates an emprt list that becomes the tree
-  def insert([h|t]) do
-    insert([h|t],[])
-  end
-
-  def insert([],tree) do
+  #Base case ->Returns the tree if the tail is empty
+  def huffman_tree([{tree,_}]) do
     tree
   end
 
-  #Starting case ->Creates a node with 2 leaves
-  def insert([{h1,f1},{h2,f2}|t],[]) do
-    insert(t,[{:node,f2+f1,{:leaf,h1},{:leaf,h2}}])
+  #
+  def huffman_tree([{a,afrek},{b,bfrek}|tail]) do
+    huffman_tree(insert({{a,b},afrek+bfrek},tail))
   end
 
-  #Case -> Comes to a node with 2 leaves
-  def insert([{h1,f1}|t],{:node,n,left,right}) do
-    insert(t,[{:node,f1+n,{:leaf,h1},{:node,n,left,right}}])
+  def insert({a,af},[]) do
+    [{a,af}]
   end
+
+  def insert({a,afrek},[{b,bfrek}|tail]) when afrek<bfrek do
+    [{a,afrek},{b,bfrek}|tail]
+  end
+
+  def insert({a,afrek},[{b,bfrek}|tail]) do
+    [{b,bfrek}| insert({a,afrek},tail)]
+  end
+
+
+
 
   def testInsert do
-    insert(testSort())
+    huffman_tree(testSort())
   end
 
 
