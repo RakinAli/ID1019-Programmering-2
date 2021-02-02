@@ -106,6 +106,10 @@ defmodule Huffman do
   # Insertion function asummes that the freq list thrown in is sorted by frequency
 
   #Base case ->Returns the tree if the tail is empty
+  def tree() do
+    huffman_tree(testSort())
+  end
+
   def huffman_tree([{tree,_}]) do
     tree
   end
@@ -127,12 +131,85 @@ defmodule Huffman do
     [{b,bfrek}| insert({a,afrek},tail)]
   end
 
-
-
-
-  def testInsert do
+  def testTree do
     huffman_tree(testSort())
   end
+
+  #__________Encoding the Tree__________
+
+  #This used for encoding table -> Puts every char in binary
+  def table(tree) do
+    traverse(tree,[],[])
+  end
+
+  #Traverses through the tree. Code is the binary form
+  #Table is the entire list.
+  def traverse({left,right},code,table) do
+    leftside = traverse(left,[0|code],table)
+
+    #We are updating the table
+    traverse(right,[1|code],leftside)
+  end
+
+  #Puts it as a {char,[code - 100001]}
+  def traverse(char,code,table) do
+    [{char,code}|table]
+  end
+
+  
+
+  def lookup(char,[{_,_}|rest]) do
+    lookup(char,rest)
+  end
+
+  #Cannot encode an empty list
+  def encode([],_) do
+    []
+  end
+
+  #Returns the value of bits
+  def encode([char|rest],table) do
+    lookup(char,table) ++ encode(rest,table)
+  end
+#__________________________________________________#
+
+#__________________Decode___________________________
+
+  def decode([],_) do
+    []
+  end
+
+  #Uses the table to decode the encoded message
+  def decode(seq,table) do
+    {char,rest} = decode_char(seq,1,table)
+    [char|decode(rest,table)]
+  end
+
+  def decode_char(seq,n,table) do
+    {code,rest} = Enum.split(seq,n)
+    case charFinder(table,code)do
+      {char,_} -> {char,rest}
+      nil -> decode_char(seq,n+1,table)
+    end
+  end
+
+  #Empty list entered -> Cannot do anything
+  def charFinder([],_) do
+    nil
+  end
+
+  #If the encoded code matches the char in the table
+  def charFinder([{char,code}|_],code) do
+    {char,code}
+  end
+
+
+  def charFinder([_,rest],code) do
+    charFinder(rest,code)
+  end
+
+
+
 
 
 

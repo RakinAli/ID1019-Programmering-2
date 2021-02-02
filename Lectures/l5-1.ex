@@ -122,7 +122,7 @@ defmodule Test do
     {:num,4}}
 
     d = deriv(e,:x)
-    c= calc(d,:x,4)
+    c = calc(d,:x,4)
     IO.write("expression: #{pprint(e)}\n")
     IO.write("derivative: #{pprint(d)}\n")
     IO.write("Simplified: #{pprint(simplify(d))}\n")
