@@ -45,12 +45,6 @@ defmodule Huffman do
     represent english but it is probably not that far off'
   end
 
-  #Test freq function
-  def testFreq do
-    sample = sample()
-    freq(sample)
-  end
-
   #__________Quick SORT__________ -> Used to fixed Freq list
    #Empty list to sort
    def qsort([]) do
@@ -94,10 +88,6 @@ defmodule Huffman do
     small ++ large
   end
 
-  def testSort do
-    qsort(testFreq())
-  end
-
   #___________TREE BUILDING__________
   #{:leaf,char} -> Leaf
   #{:node,value,left,right} -> Node
@@ -106,10 +96,6 @@ defmodule Huffman do
   # Insertion function asummes that the freq list thrown in is sorted by frequency
 
   #Base case ->Returns the tree if the tail is empty
-  def tree() do
-    huffman_tree(testSort())
-  end
-
   def huffman_tree([{tree,_}]) do
     tree
   end
@@ -131,14 +117,10 @@ defmodule Huffman do
     [{b,bfrek}| insert({a,afrek},tail)]
   end
 
-  def testTree do
-    huffman_tree(testSort())
-  end
-
   #__________Encoding the Tree__________
 
   #This used for encoding table -> Puts every char in binary
-  def table(tree) do
+  def encode_table(tree) do
     traverse(tree,[],[])
   end
 
@@ -151,13 +133,38 @@ defmodule Huffman do
     traverse(right,[1|code],leftside)
   end
 
-  #Puts it as a {char,[code - 100001]}
+  #It will look likes this -> {char,[code - 100001]}
   def traverse(char,code,table) do
-    [{char,code}|table]
+    [{char,reverse(code)}|table]
   end
 
-  
+  #Reverse function for code -> This is needed because t = 001 becomes 100 ty reverse
 
+  def reverse(rev) do
+    reverse(rev,[])
+  end
+
+  def reverse([],rev) do
+    rev
+  end
+
+  def reverse([h|t],rev)do
+    reverse(t,[h|rev])
+  end
+
+  #Function lookup checks the table and looks for the element
+
+  #looks up in the table
+  def lookup(_,[]) do
+    []
+  end
+
+  #Returns the Binary code of the char according to the tree
+  def lookup(char,[{char,code}|_]) do
+    code
+  end
+
+  #Looks for the char in the rest
   def lookup(char,[{_,_}|rest]) do
     lookup(char,rest)
   end
@@ -171,53 +178,58 @@ defmodule Huffman do
   def encode([char|rest],table) do
     lookup(char,table) ++ encode(rest,table)
   end
-#__________________________________________________#
 
-#__________________Decode___________________________
 
+  #__________________________________________________#
+
+  #__________________Decode___________________________
+
+  #Decode table used to find characters
+  def decode_table(tree) do
+    traverse(tree,[],[])
+  end
+
+  #Base case -> Nothing to decode
   def decode([],_) do
     []
   end
 
-  #Uses the table to decode the encoded message
-  def decode(seq,table) do
-    {char,rest} = decode_char(seq,1,table)
+  def decode(binary,table) do
+    #We
+    {char,rest} = decode_char(binary,1,table)
     [char|decode(rest,table)]
   end
 
-  def decode_char(seq,n,table) do
-    {code,rest} = Enum.split(seq,n)
-    case charFinder(table,code)do
+  def decode_char(binary,n,table) do
+    {code,rest} = Enum.split(binary,n)
+    case charFind(table,code) do
       {char,_} -> {char,rest}
-      nil -> decode_char(seq,n+1,table)
+      nil -> decode_char(binary,n+1,table)
     end
   end
 
-  #Empty list entered -> Cannot do anything
-  def charFinder([],_) do
+  #charFinder looks for the character
+
+  #Empty t
+  def charFind([],_) do
     nil
   end
 
-  #If the encoded code matches the char in the table
-  def charFinder([{char,code}|_],code) do
+
+  #the Table has found the code -> Return the code
+  def charFind([{char,code}|_],code) do
     {char,code}
   end
 
-
-  def charFinder([_,rest],code) do
-    charFinder(rest,code)
+   #Else continue looking in the rest
+   def charFind([_|rest],code) do
+    charFind(rest,code)
   end
 
-
-
-
-
-
-
   #_____Dummy block_____
-  @doc """
 
-  def sample do
+
+  def text() do
     'the quick brown fox jumps over the lazy dog
     this is a sample text that we will use when we build
     up a table we will only handle lower case letters and
@@ -225,40 +237,24 @@ defmodule Huffman do
     represent english but it is probably not that far off'
   end
 
-  def text() do
-    'this is something that we should encode'
-  end
-
   def test() do
-    sample = sample()
-    tree = tree(sample)
-    encode = encode_table(tree)
-    decode = decode_table(tree)
-    text = text()
-    seq = encode(text, encode)
-    decode(seq, decode)
-  end
+    #Takes in a text
+    sample = text()
 
-  def tree(sample)do
-    freq = freq(sample)
-    huffman(freq)
-  end
+    #Finds out the freq of the characters then sorts them based on freq
+    samplee = qsort(freq(sample))
 
-  def encode_table(tree)do
-    #To implemeent
-  end
+    #Creates a huffman tree based on their freq. shorter branches -> less freq
+    tree = huffman_tree(samplee)
 
-  def decode_table(tree) do
-    #To implement
-  end
+    #The table used to encode each character
+    table = encode_table(tree)
 
-  def encode(text,table)do
-    #To implement
-  end
+    #Decodes the text into Binary using the text and encoding table
+    binaryCode = encode(sample,table)
 
-  def decode(seq,tree) do
-    #To implement
+    #Decodes the Binary text using the binary and the table
+    decode(binaryCode,table)
   end
-  """
 
 end
