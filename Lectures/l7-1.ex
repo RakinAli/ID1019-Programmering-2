@@ -243,6 +243,18 @@ defmodule High do
     reduce(range,{:cont,1},fn(x,acc) -> {:cont, x * acc } end)
   end
 
+  # Elixir has libs for list and Enum
+  # Stream: Takes an enumerable as argument, returns an Enumerable or value
+  # List: Operates on list, returns a list or some value
+  # Allting är enumerable som vi kan göra reduce operationer på
 
+  # Higher order of what? A first order fuinctions takes a vlaue, data-structure
+  # as argument as returns a value
+
+  # Closure -a function and an enviroment
+  # Generic Algos -> Seperate the recurise pattern from the data it operates over
+  # Continuation -> Powerful technique to handle incomplete info
+  # Range: representation of a range of integer
+  # Streams: Lazy evaluation of range resulting in  -> Look at this shit 
 
 end
