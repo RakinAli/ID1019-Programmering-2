@@ -88,6 +88,5 @@ defmodule Env do
   def delete(id,[head|rest]) do
     [head|delete(id,rest)]
   end
-
-
+  
 end
