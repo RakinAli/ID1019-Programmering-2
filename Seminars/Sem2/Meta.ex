@@ -8,7 +8,6 @@ defmodule Enviroment do
   Simple expressions will for now be limited to terms. If we use a BNF grammar we can describe a sequence in the following way:
   """
 
-
   @type atm :: {:atm, atom()}
   @type variable :: {:var, atom()}
 
@@ -29,13 +28,6 @@ defmodule Enviroment do
   @type lambda :: {:lambda, [variable], [variable], seq}
   @type seq :: [expr] | [match | seq]
   @type closure :: {:closure, [variable], seq, env}
-
-
-
-
-
-
-
 
   #_______________ENVIROMENT______________
   @doc """
@@ -73,7 +65,6 @@ defmodule Enviroment do
   end
 
   #Returns an enviroment where all bindings for variables in the list ids have been deleted
-  @spec remove([id],env) :: env
   def remove([],env) do
     env
   end
@@ -84,7 +75,19 @@ defmodule Enviroment do
   end
 
   #Returns a list without specified element
-  def delete()
+  def delete(_,[]) do
+    []
+  end
+
+  #If we find the id, just move through it
+  def delete(id,[{id,_}|rest]) do
+    delete(id,rest)
+  end
+
+  #else -> Just add the header to the list
+  def delete(id,[head|rest]) do
+    [head|delete(id,rest)]
+  end
 
 
 end
