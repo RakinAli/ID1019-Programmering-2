@@ -1,4 +1,4 @@
-defmodule Enviroment do
+defmodule Env do
 
   # Sample Sequence: x = _foo; y = :nil; {z, _} = {:bar, :grk}; {x, {z, y}}
 
@@ -55,7 +55,7 @@ defmodule Enviroment do
   end
 
   #If we found the binding of id -> return the id togetther with it's binding
-  def lookup(id,[{id,str}|t]) do
+  def lookup(id,[{id,str}|_]) do
     {id,str}
   end
 
