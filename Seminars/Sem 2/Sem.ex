@@ -91,22 +91,6 @@ defmodule Eager do
   {:cons,head,tail}
   """
 
-  #Looks for an item in a list
-  def lookup(_,[]) do
-    nil
-  end
-
-  #If we found the binding of id -> return the id togetther with it's binding
-  def lookup(id,[{id,str}|_]) do
-    {id,str}
-  end
-
-  #Look in the tail for the id
-  def lookup(id,[_|t]) do
-    lookup(id,t)
-  end
-
-
   #This function will evaluate expressions
   def eval_expr({:atm, id},_) do
     {:ok,id}
@@ -114,7 +98,7 @@ defmodule Eager do
 
   #Checks if the variable is in the enviroment then check what value it is mapped to
   def eval_expr({:var, id}, env) do
-    case lookup(id,env) do
+    case Env.lookup(id,env) do
       nil ->
         :error
       {_, str} ->
@@ -137,22 +121,57 @@ defmodule Eager do
     end
   end
 
-  #We need to match a pattern with a data structure
+  # Case handlers
+  def eval_expr({:case, expr, cls}, env) do
+    case eval_expr(expr, env) do
+      :error ->
+        :error
+       ->
+        eval_cls(..., ..., ...)
+    end
+  end
 
-  #If we have an atom and that atom is ok
-  def eval_match({:atm,:a},:a,env) do
+  def eval_cls([], _, _, _) do
+    :error
+  end
+
+  #The function will take a list of caluses, a datastructure and an enviroment
+  # It will select the right clause and continue the execution
+  def eval_cls([{:clause, ptr, seq} | cls], ..., ...) do
+    ...
+    ...
+    case ... do
+      :fail ->
+        eval_cls(..., ..., ...)
+
+      {:ok, env} ->
+        eval_seq(..., ...)
+    end
+  end
+
+  # We need to match a pattern with a data structure
+  # Match(pattern,datastructure,enviroment) -> returns extended enviroment
+
+  #If we have an ignore then we just return the enviroment
+  def eval_match(:ignore,_,env) do
     {:ok,env}
   end
 
+  #If we have an atom and it needs to be matched to an atom
+  def eval_match({:atm,id},id,env) do
+    {:ok,env}
+  end
+
+  #
   def eval_match({:var,id},str,env) do
       case Env.lookup(id,env) do
         #Case 1 -> Variable is not in the enviroment
         nil ->
-          [{id,str}|env]
-        #Case 2 -> Variable already has binded to str in enviroment
+          {:ok,Env.add(id,str,env)}
+        #Case 2 -> Variable already has binded to str in enviroment ->No extend
         {_,^str} ->
           {:ok,env}
-        #Case 3 -> Variable is binded to something else, not str
+        #Case 3 -> Variable is binded to something else, not str -> Fail
         {_,_} ->
           :fail
       end
@@ -182,25 +201,25 @@ defmodule Eager do
     eval_expr(exp,env)
   end
 
-
-  def eval_seq([{:match,pattern, expression} | rest], env) do
-    #Evalutate expression ->
-    case eval_expr(expression,env) do
-      #If not correct expression give error
-      :error->
+  #List of sequences which match pattern
+  def eval_seq([{:match, pattern, exp} | rest], env) do
+    #Evaluate expression && Datastructure
+    case eval_expr(exp, env) do
+      #Give error if datastruc not possible
+      :error ->
         :error
-      #Else take out the binding
-      {:ok,binding} ->
-        #We now want to remove the variable but not what it's binded to
+      #Else match the pattern to the datastructure
+      {:ok, str} ->
+        #Delete the variable binding but not the datastructure binded to it
         vars = extract_vars(pattern)
-        enviroment = Env.remove(vars,env)
+        extended_env = Env.remove(vars, env)
 
-        #Look if binding is inside pattern
-        case eval_match(pattern,binding,enviroment) do
+        #Match pattern to datstructure
+        case eval_match(pattern, str, extended_env) do
           :fail ->
             :error
           {:ok, env} ->
-            eval_seq(rest,env)
+            eval_seq(rest, env)
         end
     end
   end
@@ -217,9 +236,18 @@ defmodule Eager do
     extract_vars(p1) ++ extract_vars(p2)
   end
 
-  #If there's an ignote then do noththing
+  #If there's an ignote then do nothing
   def extract_vars(_) do
     []
+  end
+
+
+  def test() do
+    seq = [{:match, {:var, :x}, {:atm,:a}},
+    {:match, {:var, :y}, {:cons, {:var, :x}, {:atm, :b}}},
+    {:match, {:cons, :ignore, {:var, :z}}, {:var, :y}},
+    {:var, :z}]
+    eval(seq)
   end
 
 end
