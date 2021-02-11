@@ -1,3 +1,88 @@
+defmodule Env do
+
+  @type atm :: {:atm, atom()}
+  @type variable :: {:var, atom()}
+
+  @type cons(e) :: {:cons, e, e}
+
+  @type expr :: atm | variable | lambda | cons(expr)
+  @type ignore :: :ignore
+
+  @type pattern :: atm | variable | ignore | cons(pattern)
+
+  @type id :: atom()
+  @type str :: any()
+
+  @type env :: [{id, str}]
+
+  @type match :: {:match, pattern, expr}
+
+  @type lambda :: {:lambda, [variable], [variable], seq}
+  @type seq :: [expr] | [match | seq]
+  @type closure :: {:closure, [variable], seq, env}
+
+  #_______________ENVIROMENT______________
+  @doc """
+  Implementing an environment will be the simplest task that we have; an environment is simply a mapping from variables to data structures.
+  If we assume that environments will be small, we can represent an environment as a list of key-value tuples.
+  The environment {x/foo, y/bar} could be represented as: [{:x, :foo}, {:y, :bar}].
+  The variables are represented by atoms, and we have here chosen to name them :x and :y but we could as well have chosen other atoms
+  (x12, :variable_x) or integers (1 and 2), the important thing is that they all have unique names.
+  """
+
+  #Returns a new enviroment
+  def new() do
+    []
+  end
+
+  #Return an enviroment where the binding of the variable id to the structure str has been added to the enviroment
+  def add(id,str,env) do
+    [{id,str}|env]
+  end
+
+  #Looks for the id in the enviroment and it's binding
+  #If the enviroment is empty then just return nil and finish
+  def lookup(_,[]) do
+    nil
+  end
+
+  #If we found the binding of id -> return the id togetther with it's binding
+  def lookup(id,[{id,str}|_]) do
+    {id,str}
+  end
+
+  #Look in the tail for the id
+  def lookup(id,[_|t]) do
+    lookup(id,t)
+  end
+
+  #Returns an enviroment where all bindings for variables in the list ids have been deleted
+  def remove([],env) do
+    env
+  end
+
+  #Iterates through the list
+  def remove([id|rest],env) do
+    remove(rest,delete(id,env))
+  end
+
+  #Returns a list without specified element
+  def delete(_,[]) do
+    []
+  end
+
+  #If we find the id, just move through it
+  def delete(id,[{id,_}|rest]) do
+    delete(id,rest)
+  end
+
+  #else -> Just add the header to the list
+  def delete(id,[head|rest]) do
+    [head|delete(id,rest)]
+  end
+
+end
+
 defmodule Eager do
 
   @doc """
@@ -60,7 +145,7 @@ defmodule Eager do
   end
 
   def eval_match({:var,id},str,env) do
-      case lookup(id,env) do
+      case Env.lookup(id,env) do
         #Case 1 -> Variable is not in the enviroment
         nil ->
           [{id,str}|env]
@@ -87,14 +172,16 @@ defmodule Eager do
     :fail
   end
 
+  #Initialize sequence
   def eval(seq) do
     eval_seq(seq,Env.new())
   end
 
-
+  #Evulate the expresision
   def eval_seq([exp], env) do
     eval_expr(exp,env)
   end
+
 
   def eval_seq([{:match,pattern, expression} | rest], env) do
     #Evalutate expression ->
@@ -118,7 +205,7 @@ defmodule Eager do
     end
   end
 
-#  @type pattern :: atm | variable | ignore | cons(pattern)
+  # @type pattern :: atm | variable | ignore | cons(pattern)
 
   #Extract funtion returns a list of all variables in a pattern
   def extract_vars({:var,var}) do
