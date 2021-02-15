@@ -6,6 +6,8 @@ defmodule Eager do
   {:cons,head,tail}
   """
 
+  #Inte färdig. Fastnat efter Seq. 
+
   #Looks for an item in a list
   def lookup(_,[]) do
     nil

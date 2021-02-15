@@ -8,6 +8,8 @@ defmodule Env do
   Simple expressions will for now be limited to terms. If we use a BNF grammar we can describe a sequence in the following way:
   """
 
+  #Inte färdig. Klar efter seq!
+
   @type atm :: {:atm, atom()}
   @type variable :: {:var, atom()}
 
@@ -88,5 +90,5 @@ defmodule Env do
   def delete(id,[head|rest]) do
     [head|delete(id,rest)]
   end
-  
+
 end
