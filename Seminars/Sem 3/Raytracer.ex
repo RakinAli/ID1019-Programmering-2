@@ -133,22 +133,59 @@ defmodule Camera do
   end
 
   #Rays coming out of the camera
-  def ray(camera, x, y) do
-    origin = ...   # the origin of the ray
-    x_pos = ...    # a vector from the corner to the x column
-    y_pos = ...    # a vector from the corner to the y row
-    pixle = ...    # a vector from origin to the pixle
-    dir = ...      # the normalized vector
-    %Ray{pos: origin, dir: dir}
+  def ray(%Camera{pos: pos, right: right, down: down, corner: corner}, x, y) do
+    x_pos = Vector.smul(right, x)
+    y_pos = Vector.smul(down, y)
+    pixle = Vector.add(corner, Vector.add(x_pos, y_pos))
+    dir = Vector.normalize(pixle)
+    %Ray{pos: pos, dir: dir}
   end
-
-
-
 end
 
 
 defmodule World do
 
   defstruct objects: []
+
+end
+
+defmodule Tracer do
+
+  @black {0, 0, 0}
+  @white {1, 1, 1}
+
+
+  def tracer(camera, objects) do
+    {w, h} = camera.size
+    for y <- 1..h, do: for(x <- 1..w, do: trace(x, y, camera, objects))
+  end
+
+  def trace(x, y, camera, objects) do
+    ray = Camera.ray(camera, x, y)
+    trace(ray, objects)
+  end
+
+  def trace(ray, objects) do
+    case intersect(ray, objects) do
+      {:inf, _} ->
+        @black
+
+      {_, _} ->
+        @white
+    end
+  end
+
+  def intersect(ray, objects) do
+    List.foldl(objects, {:inf, nil}, fn (object, sofar) ->
+      {dist, _} = sofar
+
+      case Object.intersect(object, ray) do
+        {:ok, d} when d < dist ->
+          {d, object}
+        _ ->
+          sofar
+      end
+    end)
+  end
 
 end
