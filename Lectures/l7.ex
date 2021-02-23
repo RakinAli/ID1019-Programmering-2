@@ -96,9 +96,6 @@ defmodule High do
    end
 
 
-
-
-
   def foldr([],acc,_op) do
     acc
   end
@@ -255,6 +252,6 @@ defmodule High do
   # Generic Algos -> Seperate the recurise pattern from the data it operates over
   # Continuation -> Powerful technique to handle incomplete info
   # Range: representation of a range of integer
-  # Streams: Lazy evaluation of range resulting in  -> Look at this shit 
+  # Streams: Lazy evaluation of range resulting in  -> Look at this shit
 
 end
