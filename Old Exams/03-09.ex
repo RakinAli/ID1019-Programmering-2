@@ -1,11 +1,5 @@
-@moduledoc """
-- Rakin Ali Cinte 19
-- Trying to solve some of the exam questions.
-"""
-
 defmodule Q1 do
-
-  #Question 1
+    #Question 1
   #-> The toggle function should take a list and return a list
   # where the elements have switches places. If the totala amount of elements
   # is an odd number then the last one is left on its place
@@ -45,8 +39,22 @@ defmodule Q1 do
     list++[h]
   end
 
-end
+  # Without accumelator
+  def toggla([h1,h2|t]) do
+    [h2,h1 | toggla(t)]
+  end
 
+  #Base case
+  def toggla([]) do
+    []
+  end
+
+  #Ending case -> When we come to 1 then we leave it
+  def toggla(element) do
+    element
+  end
+
+end
 
 defmodule Q2 do
   #Implement a stack: Suggest a suitable datastructure and implement
@@ -72,8 +80,24 @@ end
 
 defmodule Q3 do
 
-  def flatten do
-    
+  # A function that "adds" a list of lists]
+  def flatten([]) do
+    []
   end
+
+  #
+  def flatten([h|t]) do
+    flatten(h) ++ flatten(t)
+  end
+
+  #Base case
+  def flatten(element) do
+    [element]
+  end
+
+  def test() do
+    flatten([1,[2],[[3,[4,5]], 6]])
+  end
+
 
 end
