@@ -81,16 +81,18 @@ end
 defmodule Q3 do
 
   # A function that "adds" a list of lists]
+
+  #Base case
   def flatten([]) do
     []
   end
 
-  #
+  #Running case
   def flatten([h|t]) do
     flatten(h) ++ flatten(t)
   end
 
-  #Base case
+  #One element case
   def flatten(element) do
     [element]
   end
@@ -98,6 +100,38 @@ defmodule Q3 do
   def test() do
     flatten([1,[2],[[3,[4,5]], 6]])
   end
+end
 
+
+defmodule Q4 do
+
+  #Tar emot en lista som är ordnad med längsta sträckorna först
+  def index([]) do
+    "No data"
+  end
+
+  #Ropa på en acc
+  def index(runs) do
+    index(runs,0)
+  end
+
+  #
+  def index([h|t],index)do
+    if(h>index) do
+      index(t,index+1)
+    else
+      index
+    end
+  end
+
+  def test() do
+    index([12,10,8,8,6,4,4,4,2])
+  end
+end
+
+defmodule Q5 do
+  @type tree() :: nil |{:node,tree(),tree()} | {:leaf,any()}
+
+  compact
 
 end
