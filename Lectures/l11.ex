@@ -101,6 +101,22 @@ defmodule Foo do
     end
   end
 
+  def closed(s) do
+    receive do
+      {:add,x} -> closed(x+s)
+      :open -> open(s)
+      :done ->{:ok,s}
+    end
+  end
+
+  def open(s) do
+    receive do
+      {:mul,x} -> open(s*x)
+      {:sub,x} -> open(s-x)
+      :close -> closed(s)
+    end
+  end
+
 
 
   def start() do
@@ -117,11 +133,36 @@ defmodule Foo do
     receive do
       {:add, x} ->
         server(sum+x)
-      {sub,x} ->
+      {:sub,x} ->
         server(sum-x)
     end
   end
 
+  def acc(saldo) do
+    receive do
+      {:desposit, money} ->
+        acc(saldo+money)
+      {:withdraw,money} ->
+        acc(saldo - money)
+      {:request,from} ->
+        send(from,{:saldo,saldo})
+        acc(saldo)
+    end
+  end
 
+  def check(acc) do
+    send(acc,{:request,self()})
+    receive do
+      {:saldo, saldo} ->
+        saldo
+    end
+  end
+
+  def doit() do
+    acc = spawn(fn() -> acc(0) end)
+    send(acc,{:deposit,20})
+    send(acc,{:withdraw,10})
+    acc
+  end
 
 end
