@@ -9,10 +9,18 @@ defmodule Brot do
     test(i, z0, complex, max)
   end
 
-  @type test (number,complex,complex,number) :: number
 
+  def test(max,_,_,max) do
+    0
+  end
 
-
+  def test(i, z, c, max) do
+    if (Cmplx.abs(z)) <= 2.0 do
+      test(i+1, Cmplx.add(Cmplx.sqr(z),c), c, max)
+    else
+      i
+    end
+  end
 
 
 end
