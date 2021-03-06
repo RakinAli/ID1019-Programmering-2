@@ -6,7 +6,6 @@ defmodule Eager do
   {:cons,head,tail}
   """
 
-  #Inte färdig. Fastnat efter Seq. 
 
   #Looks for an item in a list
   def lookup(_,[]) do
@@ -21,6 +20,24 @@ defmodule Eager do
   #Look in the tail for the id
   def lookup(id,[_|t]) do
     lookup(id,t)
+  end
+
+    #The function will take a list of caluses, a datatstructure and an enviroment. It will
+  #sslect the right caluse and continue the execution
+  def eval_cls([], _, _, _) do
+    :error
+  end
+
+  def eval_cls([{:clause, ptr, seq} | cls],str, env) do
+    variables = extract_vars(ptr)
+    env = Env.remove(variables,env)
+    case eval_match(ptr,str,env) do
+      :fail ->
+        eval_cls(cls,str,env)
+
+      {_,env} ->
+        eval_seq(seq, env)
+    end
   end
 
 
@@ -51,6 +68,16 @@ defmodule Eager do
           {:ok, atomBinding} ->
               {:ok,[variableBinding,atomBinding]}
         end
+    end
+  end
+
+  #Evaluate Case expression
+  def eval_expr({:case, expr, cls},env) do
+    case eval_expr(expr, env) do
+      :error ->
+        :error
+      {_,str} ->
+        eval_cls(cls,str,env)
     end
   end
 
@@ -135,6 +162,17 @@ defmodule Eager do
   #If there's an ignote then do noththing
   def extract_vars(_) do
     []
+  end
+
+  def test() do
+    seq = [{:match, {:var, :x}, {:atm, :a}},
+       {:case, {:var, :x},
+          [{:clause, {:atm, :b}, [{:atm, :ops}]},
+           {:clause, {:atm, :a}, [{:atm, :yes}]}
+          ]}
+       ]
+
+       eval_seq(seq,[])
   end
 
 end
