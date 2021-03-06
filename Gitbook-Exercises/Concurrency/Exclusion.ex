@@ -3,8 +3,6 @@ defmodule Cell do
   #We create a cell over here
   def new(), do: spawn_link(fn -> cell(:open) end)
 
-
-
   #We define a cell over here
   defp cell(state) do
     receive do
@@ -33,8 +31,6 @@ defmodule Cell do
       :ok -> :ok
     end
   end
-
-
 
   #A test function
   def do_it(thing, lock) do
