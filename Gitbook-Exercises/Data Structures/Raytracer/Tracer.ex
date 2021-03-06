@@ -1,5 +1,8 @@
 defmodule Tracer do
 
+  @black {0, 0, 0}
+  @white {1, 1, 1}
+
   def intersect(ray, objects) do
     List.foldl(objects, {:inf, nil}, fn(object, sofar) ->
       {dist, _} = sofar
@@ -13,19 +16,27 @@ defmodule Tracer do
     end)
   end
 
-  def trace(x, y, camera, world) do
+  def trace(x, y, camera, objects) do
     ray = Ray.ray(camera,x,y)
-    trace(ray, world)
+    trace(ray, objects)
   end
 
-  def trace(ray, %World{objects: objects} = world) do
+  def trace(ray, objects) do
     case intersect(ray, objects) do
-      ... ->
+      {:inf,_} ->
         @black
-      ... ->
+      {_,_} ->
         @white
     end
   end
+
+  def tracer(camera, objects) do
+    {w, h} = camera.size
+    xs = Enum.to_list(1..w)
+    ys = Enum.to_list(1..h)
+    for y <- ys, do: for(x <- xs, do: trace(x, y, camera, objects))
+  end
+
 
 
 

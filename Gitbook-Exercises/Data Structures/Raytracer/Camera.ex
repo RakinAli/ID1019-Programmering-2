@@ -15,5 +15,6 @@ defmodule Camera do
     %Camera{pos: pos, corner: corner, right: right, down: down, size: size}
   end
 
+ 
 
 end
