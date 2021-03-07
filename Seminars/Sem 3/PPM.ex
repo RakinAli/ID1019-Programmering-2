@@ -27,5 +27,4 @@ defmodule PPM do
       [r, g, b | a]
     end)
   end
-
 end
