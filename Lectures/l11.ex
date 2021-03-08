@@ -87,10 +87,6 @@ defmodule Foo do
   send(pid{:this,:is:message,2})
   send(pid{:this,:is,:message,3})
 
-
-
-
-
   """
 
   def sum(s) do
