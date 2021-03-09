@@ -25,7 +25,7 @@ defmodule CRC do
     end
   end
 
-  #Starting case ->
+  #We do the recursion here. Just xor and jump zeroes until 3 bits long recursively
   def computee([h|t]) do
     #If the length is three then we end the code
     IO.puts("start:  #{inspect([h|t])}")
@@ -72,7 +72,7 @@ defmodule CRC do
 
   #Base case- > If there's only zero -> return an empty list
   def jump_zero([]) do
-    []
+    "Error in the code"
   end
 
   def xor([], l) do
