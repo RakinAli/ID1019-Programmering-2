@@ -1,4 +1,4 @@
-defmodule Q1 do
+ defmodule Q1 do
     #Question 1
   #-> The toggle function should take a list and return a list
   # where the elements have switches places. If the totala amount of elements
