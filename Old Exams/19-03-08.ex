@@ -26,7 +26,7 @@ defmodule Q1 do
   end
 end
 
-#Problems with the printing 
+#Problems with the printing
 defmodule Q2 do
 
   def zip(lst1,lst2) do
@@ -131,21 +131,62 @@ end
 
 defmodule Q5 do
 
-  def grey(0) do
-    "You inserted Zero, Not possible"
-  end
-
   #Base case ->
-  def grey(1) do
-    [[0],[1]]
+  def grey(0) do
+    [[]]
   end
 
   def grey(n) do
-    omvändNollor = Enum.reverse(grey(n-1))
-    omvändEttor  = Enum.reverse(grey(n-1))
-    updateNoll(omvändNollor)
-    u
+    #Generate grey n-1 then reverse the list
+    reverse = Enum.reverse(grey(n-1))
+    list1 = update(grey(n-1),0)
+    list2 = update(reverse,1)
 
+    #This is what returns
+    list1 ++ list2
   end
 
+  def update([],_) do
+    []
+  end
+
+  def update([h|t],int) do
+    [[int|h]|update(t,int)]
+  end
+end
+
+defmodule Q7 do
+
+  #Fib/0 returns a function as an arugment
+  def fib() do
+    fn() -> fib(1,0) end
+  end
+
+  #Fib/2 takes two arguments and returns a function
+  def fib(f1, f2) do
+    {:ok, f1, fn() -> fib(f1+f2, f1) end}
+  end
+
+  def take(inf, 0) do
+    {:ok, [], inf}
+  end
+
+  def take(inf, n) do
+    {:ok, next, cont} = inf.()
+    {:ok, rest, cont} = take(cont, n-1)
+    {:ok, [next|rest], cont}
+  end
+
+  def test() do
+    cont = fib()
+    {:ok, f1, cont} = cont.()
+    {:ok, f2, cont} = cont.()
+    {:ok, f3, cont} = cont.()
+    {:ok,f4,cont} = cont.()
+    [f1,f2,f3,f4]
+  end
+end
+
+defmodule Q8 do
+  
 end
