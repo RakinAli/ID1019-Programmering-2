@@ -26,6 +26,7 @@ defmodule Q1 do
   end
 end
 
+#Problems with the printing 
 defmodule Q2 do
 
   def zip(lst1,lst2) do
@@ -71,7 +72,80 @@ defmodule Q2 do
   def test() do
     zip([:a,:b,:c], [1,2,3])
   end
+end
+
+#This question was hard
+defmodule Q3 do
 
 
+
+  #If an empty tree
+  def balance(nil) do
+    {0,0}
+  end
+
+  #If a tree with
+  def balance({:node,_,left,right}) do
+    #We want the left side and right side and calculate their length and respective imbalances
+    {depthL,imbalanceL} = balance(left)
+    {depthR,imbalanceR} = balance(right)
+    #We get the depth of the tree then + 1
+    depth = max(depthL,depthR) + 1
+    #The Imbalance the left and right tree depth absolute value of them
+    imbalance = max(max(imbalanceL,imbalanceR),abs(depthL-depthR))
+     {depth,imbalance}
+  end
+
+  def test() do
+    tree = {:node,:root,{:node,:L1,nil,nil},{:node,:R1,{:node,:r1l1,nil,nil},nil}}
+    balance(tree)
+  end
+end
+
+defmodule Q4 do
+
+  #Handles Addition
+  def eval({:add,expr1,expr2}) do
+    eval(expr1) + eval(expr2)
+  end
+
+  #Handles multiplication
+  def eval({:mul,expr1,expr2}) do
+    eval(expr1) * eval(expr2)
+  end
+
+  #Handles negative
+  def eval({:neg,expr}) do
+    -expr
+  end
+
+  #Handles regular numbers
+  def eval(integer) do
+    integer
+  end
+
+  def test() do
+    eval({:add, {:mul, 2, 3}, {:neg, 2}})
+  end
+end
+
+defmodule Q5 do
+
+  def grey(0) do
+    "You inserted Zero, Not possible"
+  end
+
+  #Base case ->
+  def grey(1) do
+    [[0],[1]]
+  end
+
+  def grey(n) do
+    omvändNollor = Enum.reverse(grey(n-1))
+    omvändEttor  = Enum.reverse(grey(n-1))
+    updateNoll(omvändNollor)
+    u
+
+  end
 
 end
