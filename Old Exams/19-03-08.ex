@@ -187,6 +187,35 @@ defmodule Q7 do
   end
 end
 
-defmodule Q8 do
-  
+defmodule Q9 do
+
+  def start(user) do
+    collector = spawn(fn() -> collector(user, 0) end)
+    {:ok, spawn(fn() -> para(collector, 0) end)}
+  end
+
+  def para(collector, n) do
+    receive do
+      {:process, task} ->
+        spawn(fn() ->
+          done = doit(task)
+          send(collector, {:done, n, done})
+        end)
+        para(collector, n+1)
+      :quit ->
+        send(collector, :quit)
+        :ok
+    end
+  end
+
+  def collector(user, n) do
+    receive do
+      {:done, ^n, done} ->
+        send(user, done)
+        collector(user, n+1)
+      :quit ->
+        :ok
+  end
+
+
 end
