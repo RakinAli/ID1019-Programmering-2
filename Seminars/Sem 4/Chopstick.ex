@@ -28,9 +28,4 @@ defmodule Chopstick do
       :granted -> :ok
     end
   end
-
-
-
-
-
 end
