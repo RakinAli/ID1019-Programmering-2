@@ -191,22 +191,12 @@ end
 
 defmodule Q51 do
 
-  def test() do
-    process = spawn(fn->1+1 end)
-    send(process,{:hi})
-    send(process,{:whats})
-    send(process,{:good})
-    send(process,:done)
-    collect()
-  end
-
   def collect() do
     receive do
       :done -> []
       x -> [x|collect()]
     end
-
   end
-
-
 end
+
+
