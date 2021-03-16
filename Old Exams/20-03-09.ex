@@ -102,7 +102,6 @@ defmodule Q3 do
   end
 end
 
-
 defmodule Q4 do
 
   #Tar emot en lista som är ordnad med längsta sträckorna först
@@ -132,6 +131,74 @@ end
 defmodule Q5 do
   @type tree() :: nil |{:node,tree(),tree()} | {:leaf,any()}
 
-  compact
+  #Base case 1 -> if there's nill then do nil
+  def compact(nil) do
+    :nil
+  end
+
+  #Base case 2 -> If there's a leaf then just return it untouched
+  def compact({:leaf,value}) do
+    {:leaf,value}
+  end
+
+  #Base case 3 -> If there's a node with two leafs with the same value then compact them
+  def compact({:node,{:leaf,value},{:leaf,value}}) do
+    {:leaf,value}
+  end
+
+  #Running case -> We make the left & right side more compact and combine them
+  def compact({:node,left,right}) do
+    compactLeft = compact(left)
+    compactRight = compact(right)
+    combine(compactLeft,compactRight)
+  end
+
+  #
+  def combine({:leaf,value},nil) do
+    {:leaf,value}
+  end
+
+  def combine(nil,{:leaf,value}) do
+    {:leaf,value}
+  end
+
+  def combine(left,right) do
+    {:node,left,right}
+  end
+
+  def test1() do
+    compact({:node, {:leaf, 4}, {:leaf, 4}})
+  end
+
+  def test2() do
+    compact({:node, {:leaf, 5}, {:node, :nil, {:leaf, 4}}})
+  end
 
 end
+
+defmodule Q7 do
+
+  @type next() :: {:ok,integer,(->next())}
+
+  #Finds primes numbers
+  def primes() do
+    fn()->{:ok,2,fn()->sieve(2,fn()->next(3)end)end} end
+  end
+
+  #Iterates to the next number +1
+  def next(n) do
+    {:ok,n,fn->next(n+1)end}
+  end
+
+  def sieve(p, f) do
+    {:ok, n, f} = f.()
+    if rem(n, p) == 0 do
+       sieve(p, f)
+    else
+      #We iterates to the next prime number
+      {:ok, n, fn() -> sieve(n, fn() -> sieve(p, f) end) end}
+    end
+  end
+end
+
+

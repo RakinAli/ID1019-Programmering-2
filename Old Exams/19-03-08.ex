@@ -77,8 +77,6 @@ end
 #This question was hard
 defmodule Q3 do
 
-
-
   #If an empty tree
   def balance(nil) do
     {0,0}
@@ -89,8 +87,10 @@ defmodule Q3 do
     #We want the left side and right side and calculate their length and respective imbalances
     {depthL,imbalanceL} = balance(left)
     {depthR,imbalanceR} = balance(right)
+
     #We get the depth of the tree then + 1
     depth = max(depthL,depthR) + 1
+
     #The Imbalance the left and right tree depth absolute value of them
     imbalance = max(max(imbalanceL,imbalanceR),abs(depthL-depthR))
      {depth,imbalance}

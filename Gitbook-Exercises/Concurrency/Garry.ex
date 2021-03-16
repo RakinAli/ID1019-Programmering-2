@@ -17,15 +17,10 @@ defmodule M do
       {:english, name} ->
           IO.puts("Hello #{name}")
 
-
     after
       500->IO.puts"Time up"
       end
-
     #If there's no matching word
-
-
-
   end
 
   # A Elixir for loop
