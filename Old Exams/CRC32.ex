@@ -4,7 +4,8 @@ defmodule CRC do
   The task is to implement a Cyclic Redundancy Check using a generator we already have
   First -> Add three zeroes to the tail
   Second -> Check if header starts with zero. If zero -> skip the element
-  Third -> Check if
+  Third -> Start XORING
+  Fourth -> Do second and fourth recursively untill length is three
   """
 
   #This is predefined in the question
