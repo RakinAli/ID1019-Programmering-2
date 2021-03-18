@@ -51,6 +51,31 @@ defmodule Q23 do
       _-> trist(rest)
     end
   end
+end
 
+defmodule Q51 do
+
+  #Starts a new process
+  def new(value) do
+    getter = spawn(fn()->start(value)end)
+  end
+
+  #
+  def start(oldValue) do
+    IO.puts(oldValue)
+    receive do
+      {:swap,new,from} ->
+        send(from,{:ok,oldValue})
+      {set,new} ->
+        IO.puts("The value has been updated")
+        start(new)
+    end
+  end
+
+  def test() do
+    new(10)
+    self
+
+  end
 
 end

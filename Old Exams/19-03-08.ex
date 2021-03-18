@@ -56,7 +56,7 @@ defmodule Q2 do
     zipped(t1,t2,add({ziper},lst))
   end
 
-    def add(x,[]) do
+  def add(x,[]) do
     [x]
   end
 
@@ -188,6 +188,23 @@ defmodule Q7 do
 end
 
 defmodule Q9 do
+  def start(user) do
+    {:ok, spawn(fn() -> proc(user) end)}
+  end
+
+  def proc(user) do
+  receive do
+    {:process, task} ->
+      done = doit(task)
+      send(user, done)
+      proc(user)
+    :quit ->
+      :ok
+    end
+  end
+end
+
+defmodule Q9svar do
 
   def start(user) do
     collector = spawn(fn() -> collector(user, 0) end)
@@ -216,6 +233,5 @@ defmodule Q9 do
       :quit ->
         :ok
   end
-
 
 end

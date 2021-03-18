@@ -36,6 +36,70 @@ end
 
 defmodule Q5 do
 
+  #fuck tidskomplexitet
+end
 
-  
+defmodule Q6 do
+
+  def dillinger() do
+    pid1 = spawn(fn()->start()end)
+    send(pid1,{:knife})
+    send(pid1,{:fork})
+    send(pid1,{:bottle})
+    send(pid1,{:cork})
+  end
+
+  def start() do
+    IO.puts("Jim I fucked your wife")
+    receive do
+      {:knife} ->
+        knife()
+    end
+  end
+
+  def fork() do
+    IO.puts("Now I forked your wife")
+    receive do
+      {:bottle} ->
+        bottle()
+    end
+  end
+
+   def knife() do
+    IO.puts("Now I knifed your wife")
+    receive do
+      {:fork} ->
+        fork()
+    end
+  end
+
+  def bottle do
+    IO.puts("Now I bottled your wife")
+    receive do
+      {:cork} ->
+        start()
+    end
+  end
+
+  def hello() do
+    IO.puts("This is the second process")
+  end
+end
+
+defmodule Q7 do
+
+  def fold() do
+
+  end
+
+  def split([], l1, l2) do
+    {l1, l2}
+  end
+
+  def split([h|t], l1, l2) do
+    split(t, l2, [h|l1])
+  end
+
+
+
 end
