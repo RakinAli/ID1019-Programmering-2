@@ -77,5 +77,4 @@ defmodule Q51 do
     self
 
   end
-
 end
