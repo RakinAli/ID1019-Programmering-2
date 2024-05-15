@@ -1,22 +1,24 @@
-# Programmering 2
+# Course Content and Learning Outcomes
 
-Innehåll och lärandemål
--Kursinnehåll-
-Kursen går igenom dels de programmeringstekniker som används inom funktionella programmeringsspråk, dels hur program kan delas upp i flera exekverande trådar och hur dessa kan koordineras. Exempel på programmeringstekniker är rekursiva definitioner, icke uppdaterbara datastrukturer, högre ordningens funktioner och s.k. “closures”. Koordinering av multipla trådar visas dels genom modifiering av gemensamma datastrukturer dels genom meddelande mellan processer.
+## Course Contents
+The course goes through partly the programming techniques that are used in functional programming languages, partly how programs can be divided into several executing threads and how these can be coordinated. Examples of programming techniques are recursive definitions, non-updateable data structures, functions of higher order and so-called “closures”. Coordination of multiple threads is shown, partly through modification of common data structures, partly through message passing between processes.
 
-Kursen kommer att använda sig av ett programmeringsspråk som huvudspråk men även visa likheter och skillnader med andra funktionella språk.
+The course will use a programming language as the main language but also show similarities and differences with other functional languages.
 
+## Intended Learning Outcomes
+After passing the course, students should be able to:
+- Use recursion, pattern matching, and non-modifiable data structures upon implementation in a functional programming language.
 
--Lärandemål-
-Efter godkänd kurs skall studenten kunna
+For higher grades, the student should also be able to:
+- Use functions as first order objects and work with the functions of higher order
+- Explain the basics of functional programming, its structure, and operational semantics
+- Evaluate functions with regard to time complexity
+- Use message-based multi-threaded programming.
 
-1) använda sig av rekursion, mönstermatchning och icke modifierbara datastrukturer vid implementering i ett funktionellt programspråk.
-För högre betyg skall studenten dessutom kunna använda funktioner som första ordningens objekt och arbeta med högre ordningens funktioner
+## Literature and Preparations
 
-2) förklara grunderna för funktionell programmering, dess uppbyggnad och operationella semantik
-
-3) utvärdera funktioner med avseende på tidskomplexitet
-
-4) använda meddelandebaserad flertrådad programmering. 
-
- 
+### Specific Prerequisites
+- Knowledge and skills in programming, 7.5 credits, corresponding to completed course ID1018.
+- Knowledge in algorithms and data structures, 4.5 credits, corresponding to completed course component ARBA-Course work in ID1020/ID1021.
+- Knowledge in discrete mathematics, 7.5 credits, corresponding to completed course IX1500/SF1610.
+- Active participation in a course offering where the final examination is not yet reported in Ladok is considered equivalent to completion of the course. Registration for a course is counted as active participation. The term 'final examination' encompasses both the regular examination and the first re-examination.
